@@ -14,7 +14,7 @@ import time
 # General settings
 record_time = 14400
 data_interval = 5
-max_pt_id = 1800/data_interval
+max_pt_id = int(1800/data_interval)
 savepath = r"cpu_temp.csv"
 
 # Getting the temperature object
