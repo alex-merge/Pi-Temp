@@ -37,12 +37,13 @@ arg_parser.add_argument(
     type = int,
     required = False,
     help = "Logging time in seconds.")
+args = arg_parser.parse_args()
 
 ## General settings
-record_time = arg_parser.time
-data_interval = arg_parser.interval
+record_time = args.time
+data_interval = args.interval
 max_pt_id = 1800/data_interval
-savepath = arg_parser.savepath
+savepath = args.savepath
 
 ## Getting the temperature object
 cpu_temp = CPUTemperature()
