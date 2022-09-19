@@ -42,7 +42,7 @@ args = arg_parser.parse_args()
 ## General settings
 record_time = args.time
 data_interval = args.interval
-max_pt_id = 1800/data_interval
+max_pt_id = int(1800/data_interval)
 savepath = args.savepath
 
 ## Getting the temperature object
