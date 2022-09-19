@@ -6,18 +6,45 @@ Pi-Temp
 @version: 1.0
 """
 
-# Importing needed librairies
+## Importing needed librairies
 import numpy as np
 from gpiozero import CPUTemperature
 import time
+import argparse
 
-# General settings
-record_time = 14400
-data_interval = 5
+## Argument Parser
+arg_parser = argparse.ArgumentParser(description='Log the temperatures.')
+arg_parser.add_argument(
+    "--output",
+    "-o",
+    dest = "savepath",
+    default = r"cpu_temp.csv",
+    required = False,
+    help = "The savepath of the file containing the results.")
+arg_parser.add_argument(
+    "--interval",
+    "-i",
+    dest = "interval",
+    default = 5,
+    type = int,
+    required = False,
+    help = "Data pull interval in seconds.")
+arg_parser.add_argument(
+    "--log_time",
+    "-lt",
+    dest = "time",
+    default = 14400,
+    type = int,
+    required = False,
+    help = "Logging time in seconds.")
+
+## General settings
+record_time = arg_parser.time
+data_interval = arg_parser.interval
 max_pt_id = 1800/data_interval
-savepath = r"cpu_temp.csv"
+savepath = arg_parser.savepath
 
-# Getting the temperature object
+## Getting the temperature object
 cpu_temp = CPUTemperature()
 
 pt_id = 0
