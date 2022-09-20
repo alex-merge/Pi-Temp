@@ -20,7 +20,7 @@ arg_parser.add_argument(
     dest = "savepath",
     default = r"cpu_temp.csv",
     required = False,
-    help = "The savepath of the file containing the results.")
+    help = "The savepath of the file containing the results. (Default is False)")
 arg_parser.add_argument(
     "--interval",
     "-i",
@@ -28,15 +28,22 @@ arg_parser.add_argument(
     default = 5,
     type = int,
     required = False,
-    help = "Data pull interval in seconds.")
+    help = "Data pull interval in seconds. (Default is 5)")
 arg_parser.add_argument(
     "--log_time",
     "-lt",
     dest = "time",
-    default = 14400,
+    default = 72,
     type = int,
     required = False,
-    help = "Logging time in seconds.")
+    help = "Logging time in hours. (Default is 72)")
+arg_parser.add_argument(
+    "--verbose",
+    "-v",
+    dest = "verbose",
+    default = True,
+    required = False,
+    help = "Verbose option. (Default is True)")
 args = arg_parser.parse_args()
 
 ## General settings
@@ -61,8 +68,12 @@ with open(savepath, "a") as log:
             time.sleep(data_interval)
         
         temp, std = np.mean(temp_list), np.std(temp_list)
-        log.write("{0},{1},{2}\n".format(time.strftime("%Y-%m-%d %H:%M:%S"),
-                                     str(temp), str(std)))
-
+        timestamp = "{0},{1},{2}\n".format(time.strftime("%Y-%m-%d %H:%M:%S"))
+        log.write(timestamp, str(temp), str(std))
+        
+        if args.verbose:
+            print("Data logged as "+timestamp)
+        
         if time.time()-start_time >= record_time :
             condition = False
+print("Logging done")
