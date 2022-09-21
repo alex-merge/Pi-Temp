@@ -68,8 +68,9 @@ with open(savepath, "a") as log:
             time.sleep(data_interval)
         
         temp, std = np.mean(temp_list), np.std(temp_list)
-        timestamp = "{0},{1},{2}\n".format(time.strftime("%Y-%m-%d %H:%M:%S"))
-        log.write(timestamp, str(temp), str(std))
+        timestamp = "{0},{1},{2}\n".format(time.strftime("%Y-%m-%d %H:%M:%S"), 
+                                           temp, std)
+        log.write(timestamp)
         
         if args.verbose:
             print("Data logged as "+timestamp)
