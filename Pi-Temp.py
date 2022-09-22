@@ -44,6 +44,15 @@ arg_parser.add_argument(
     default = True,
     required = False,
     help = "Verbose option. (Default is True)")
+arg_parser.add_argument(
+    "--mode",
+    "-m",
+    dest = "mode",
+    default = "averaged",
+    type = str,
+    required = False,
+    help = "Method of logging : 'averaged' for logging averaged temps every 30 minutes"
+    + "'normal' for logging temps at the data pulling rate.")
 args = arg_parser.parse_args()
 
 ## General settings
@@ -59,15 +68,23 @@ pt_id = 0
 condition = True
 start_time = time.time()
 
-with open(savepath, "a") as log:
-    while condition:
-        temp_list = []
+while condition:
+    with open(savepath, "a") as log:
         
-        for k in range(max_pt_id):
-            temp_list.append(cpu_temp.temperature)
+        if args.mode == "averaged":
+            temp_list = []
+            
+            for k in range(max_pt_id):
+                temp_list.append(cpu_temp.temperature)
+                time.sleep(data_interval)
+            
+            temp, std = np.mean(temp_list), np.std(temp_list)
+            
+        if args.mode == "normal":
             time.sleep(data_interval)
+            temp, std = cpu_temp.temperature, 0
         
-        temp, std = np.mean(temp_list), np.std(temp_list)
+        ## Writting the data line
         timestamp = "{0},{1},{2}\n".format(time.strftime("%Y-%m-%d %H:%M:%S"), 
                                            temp, std)
         log.write(timestamp)
