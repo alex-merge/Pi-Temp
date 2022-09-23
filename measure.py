@@ -56,7 +56,7 @@ arg_parser.add_argument(
 args = arg_parser.parse_args()
 
 ## General settings
-record_time = args.time
+record_time = args.time*60*60
 data_interval = args.interval
 max_pt_id = int(1800/data_interval)
 savepath = args.savepath
