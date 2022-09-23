@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Pi-Temp
+Pi-Temp - Measuring module
 
 @author: alex-merge
 @version: 1.0
@@ -20,7 +20,7 @@ arg_parser.add_argument(
     dest = "savepath",
     default = r"cpu_temp.csv",
     required = False,
-    help = "The savepath of the file containing the results. (Default is False)")
+    help = "The savepath of the file containing the results. (Default is \cpu_temp.csv)")
 arg_parser.add_argument(
     "--interval",
     "-i",
